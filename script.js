@@ -1,7 +1,8 @@
 // LES BOUTONS PRINCIPALES
 const btn30sec = document.getElementById("btn-30sec");
-const btn1min= document.getElementById("btn-1min");
-const btn10min= document.getElementById("btn-10min");
+const btn5min= document.getElementById("btn-5min");
+const btn15min= document.getElementById("btn-15min");
+const btn20min= document.getElementById("btn-20min");
 const btn1h= document.getElementById("btn-1h");
 const btnChoice = document.getElementsByClassName("btn-choice")[0];
 
@@ -35,8 +36,9 @@ let chronotime = {hour:0, min:0,second:0}
 let interval,alertTimeout;
 
 btn30sec.addEventListener('click',() => onClick({hour:0,min:0,second:30}))
-btn1min.onclick =() => onClick({hour:0,min:1,second:0})
-btn10min.onclick =() => onClick({hour:0,min:10,second:0})
+btn5min.onclick =() => onClick({hour:0,min:5,second:0})
+btn15min.onclick =() => onClick({hour:0,min:15,second:0})
+btn20min.onclick =() => onClick({hour:0,min:20,second:0})
 btn1h.onclick =() => onClick({hour: 1,min:0,second:0})
 
 // Restriction formultaire
@@ -68,9 +70,9 @@ form[2].addEventListener("input", () => {
 form.onsubmit = (e) => {
     e.preventDefault();
     let time = {second: 0,min: 0, hour:0};
-    let hour = parseInt(form[0].value) ? parseInt(form[0].value) : 0;
-    let min = parseInt(form[1].value) ? parseInt(form[1].value) : 0;
-    let sec = parseInt(form[2].value) ? parseInt(form[2].value) : 0;
+    let hour = form[0].value ? parseInt(form[0].value) : 0;
+    let min = form[1].value ? parseInt(form[1].value) : 0;
+    let sec = form[2].value ? parseInt(form[2].value) : 0;
 
     // SI LE FORMULTAIRE N'EST PAS REMPLI AU MOINS DANS l'UN DES INPUTS
     if(form[0].value != "" | form[1].value != ""  | form[2].value != "" ) {
@@ -83,11 +85,10 @@ form.onsubmit = (e) => {
             onClick(time);
             form.reset();
         }
-
     }
-
 }
 
+// Clique qui lance le chronomètre
 function onClick (time){
     hide(btnChoice);
     chronotime = time;
@@ -95,21 +96,24 @@ function onClick (time){
     launchChrono()
 }
 
+// Affiche l'heure de retour
 function showLimit () {
     const time = chronotime;
     const date = new Date();
     time.second && (date.setSeconds(date.getSeconds() + time.second));
     time.min && (date.setMinutes(date.getMinutes() + time.min));
     time.hour && (date.setHours(date.getHours() + time.hour));
-    timeLimit.textContent = " Revenez à " + date.getHours() + "h" + date.getMinutes() + "min" + date.getSeconds() + "s"
+    timeLimit.textContent = " Revenez à " + date.getHours() + "h" + date.getMinutes() ;
     return date;
 }
 
+// Affiche le chrono et commence l'interval qui
 function launchChrono() {
     showTime();
     interval = setInterval(launch,1000);
 }
 
+// Descend d'une seconde
 function launch(){
     let time = chronotime
     if(time.hour == 0 && time.min == 0 && time.second == 0) {
@@ -129,17 +133,20 @@ function launch(){
     }
     showTime()
 }
+// Affiche le message d'alerte quand le compte à rebours n'est pas reset
 const alert = () => {timeLimit.innerHTML = " <span class='alert'> Vous êtes en retard !!! </span>"}
 
+// Affiche le chrono
 function showTime() {
-    let time = chronotime
-    timeHTML.textContent = (time.hour) + ":" + (time.min< 10 ? "0" + time.min : time.min) + ":" + (time.second < 10 ? "0" + time.second : time.second)
+    let time = chronotime;
+    timeHTML.textContent = (time.hour) + ":" + (time.min< 10 ? "0" + time.min : time.min) + ":" + (time.second < 10 ? "0" + time.second : time.second);
 }
 
 
 // AU CLIQUE SUR LE BOUTON RESET
 btnReset.addEventListener('click',reset);
 
+// Reinitialise tout
 function reset() {
         clearInterval(interval);
         clearTimeout(alertTimeout);
@@ -150,15 +157,16 @@ function reset() {
         show(btnChoice);
         if(btnStop.classList.contains("stop")){
             btnStop.classList.remove("stop");
-            btnStop.textContent = "Pause"
+            btnStop.textContent = "Pause";
         }
     }
 
 // Au clique sur le bouton stop
 
-const btnStop = document.getElementById("btn-stop")
+const btnStop = document.getElementById("btn-stop");
 
-btnStop.addEventListener("click",pause)
+// Bouton pause
+btnStop.addEventListener("click",pause);
 
 function pause () {
     if(chronotime.hour != 0 | chronotime.min != 0 | chronotime.second != 0){
@@ -174,5 +182,4 @@ function pause () {
             timeLimit.textContent = "Minuteur en pause";
         }
     }
-
 }

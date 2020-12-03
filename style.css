@@ -91,6 +91,19 @@ input[type=number] {
     border-radius: 15px;
     text-align: center;
 }
+
+.clock:before {
+    content:"";
+    width:25px;
+    height:15px;
+    background: #222;
+    position: absolute;
+    top:-10px;
+    right:25px;
+    border-radius: 15px;
+    z-index: -1;
+}
+
 .chrono {
     flex: 1;
     display: flex;
@@ -118,17 +131,6 @@ input[type=number] {
     background: white;
     width:300px;
     text-align: center;
-}
-.clock:before {
-    content:"";
-    width:25px;
-    height:15px;
-    background: black;
-    position: absolute;
-    top:-10px;
-    right:25px;
-    border-radius: 15px;
-    z-index: -1;
 }
 
 #time-limit{
@@ -168,17 +170,19 @@ input[type=number] {
     border: 1px #5C9B40 solid !important;
     color: #5C9B40 !important;
 }
+
 .stop:before {
-    background:#5C9B40 !important ;
+    background:#5C9B40 url('./images/play-button.svg') no-repeat center center !important ;
+    background-size: 50% !important;
 }
 #btn-stop:before {
-    content: '▶';
-    background: #FF781F;
+    background: #FF781F url('./images/pause.svg') no-repeat center center;
+    background-size: 60%;
 }
 
 #btn-reset:before{
-    content:'↩';
-    background: #FF3D41 ;
+    background: #FF3D41 url('./images/replay-arrow.svg') no-repeat center center;
+    background-size: 60%;
 }
 .btn-group button:before {
     content:'';
