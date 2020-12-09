@@ -3,6 +3,9 @@ body {
     box-sizing: border-box;
     min-height: 100vh;
     font-family: 'Montserrat', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 *:focus {
     outline: none;
@@ -20,16 +23,32 @@ input[type=number] {
 }
 .app {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
+    position:relative;
+    border:15px #ddd solid;
+    transition: all 0.4s;
+    box-sizing: border-box;
+
+}
+
+.clock-active {
+    width:97% ;
+    min-height: 95vh;
+    border:2px #ddd solid;
+
 }
 .btn-choice h2 {
     text-align: center;
 }
 .btn-choice {
+    position:absolute;
+    left: 20px;
+    bottom: 20px;
+    top:20px;
+    z-index: 1;
     font-size:1.3em;
     background: #eee;
-    height:100vh;
     width:500px;
     display: flex;
     flex-direction: column;
@@ -70,11 +89,13 @@ input[type=number] {
     transform : translateX(0);
 }
 .btn-choice input {
+    font-size: 18px;
     margin:2px;
-    width:60px;
+    width:80px;
     background: inherit;
     border: none;
     padding:15px 0;
+    text-align: center;
 }
 .btn-choice input:focus {
     border-bottom:1px grey solid;
@@ -117,9 +138,6 @@ input[type=number] {
 .chrono:before {
     content: '';
     position: absolute;
-    width: 97%;
-    height:95%;
-    border:2px #ddd solid;
 
 }
 #time {
@@ -131,6 +149,7 @@ input[type=number] {
     background: white;
     width:300px;
     text-align: center;
+    transition: all 0.4s;
 }
 
 #time-limit{
@@ -180,6 +199,12 @@ input[type=number] {
     background-size: 60%;
 }
 
+#btn5 {
+    color: navy;
+    border: 1px navy solid;
+    background: white;
+    display: none;
+}
 #btn-reset:before{
     background: #FF3D41 url('./images/replay-arrow.svg') no-repeat center center;
     background-size: 60%;
@@ -212,19 +237,25 @@ input[type=number] {
 
 }
 
-@media (max-width: 481px) {
-
-}
-
 @media (max-width : 1200px) {
     .app{
         flex-direction: column;
         font-size: 13px;
+        width: 100%;
+        min-height: 100vh;
     }
     .btn-choice{
+        left:0;top:0;bottom:0;
+        right:0;
+        z-index: 100;
         flex-direction: row;
-        height: auto;
         width: auto;
         flex-wrap: wrap;
+    }
+    .clock{
+        width: 300px;
+    }
+    #time{
+        width: 255px;
     }
 }

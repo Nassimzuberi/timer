@@ -10,26 +10,28 @@ const btnChoice = document.getElementsByClassName("btn-choice")[0];
 const form = document.getElementById("chrono-form")
 
 //CHRONO-SHOW
-const chrono = document.getElementsByClassName("chrono")[0]
+const app = document.getElementsByClassName("app")[0]
 const timeHTML = document.getElementById("time");
 const timeLimit = document.getElementById("time-limit");
 const btnReset = document.getElementById("btn-reset");
 
 function hide(div) {
-    div.style.transition = "all 0.2s";
+    div.style.transition = "all 0.4s";
+    app.classList.add('clock-active');
     div.style.opacity = "0";
     setTimeout(() => {
         div.style.display = "none";
-    },200)
+    },400)
 }
 
 function show(div) {
     div.style.opacity != 0 && (div.style.opacity = 0);
+    app.classList.remove('clock-active');
     div.style.display = "flex"
     setTimeout(() => {
-        div.style.transition = "all 0.2s"
+        div.style.transition = "all 0.4s"
         div.style.opacity = "1"
-    },200)
+    },100)
 }
 
 let chronotime = {hour:0, min:0,second:0}
@@ -92,8 +94,9 @@ form.onsubmit = (e) => {
 function onClick (time){
     hide(btnChoice);
     chronotime = time;
+    btnAdd5.style.display = "initial"
     showLimit();
-    launchChrono()
+    launchChrono();
 }
 
 // Affiche l'heure de retour
@@ -103,7 +106,7 @@ function showLimit () {
     time.second && (date.setSeconds(date.getSeconds() + time.second));
     time.min && (date.setMinutes(date.getMinutes() + time.min));
     time.hour && (date.setHours(date.getHours() + time.hour));
-    timeLimit.textContent = " Revenez à " + date.getHours() + "h" + date.getMinutes() ;
+    timeLimit.textContent = " Revenez à " + date.getHours() + "h" + (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes());
     return date;
 }
 
@@ -148,14 +151,16 @@ btnReset.addEventListener('click',reset);
 
 // Reinitialise tout
 function reset() {
-        clearInterval(interval);
-        clearTimeout(alertTimeout);
-        chronotime = {hour: 0, min: 0, second: 0};
-        showTime();
-        timeLimit.textContent = "";
-        timeHTML.classList.contains("end") && (timeHTML.classList.remove("end"));
-        show(btnChoice);
-        if(btnStop.classList.contains("stop")){
+    clearInterval(interval);
+    clearTimeout(alertTimeout);
+    chronotime = {hour: 0, min: 0, second: 0};
+    showTime();
+    timeLimit.textContent = "";
+    timeHTML.classList.contains("end") && (timeHTML.classList.remove("end"));
+    show(btnChoice);
+    btnAdd5.style.display = "none"
+
+    if(btnStop.classList.contains("stop")){
             btnStop.classList.remove("stop");
             btnStop.textContent = "Pause";
         }
@@ -182,4 +187,13 @@ function pause () {
             timeLimit.textContent = "Minuteur en pause";
         }
     }
+}
+
+const btnAdd5 = document.getElementById("btn5")
+
+btnAdd5.addEventListener("click",add5)
+
+function add5() {
+    chronotime.min += 5;
+    showLimit()
 }
