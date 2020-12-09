@@ -158,7 +158,7 @@ function reset() {
     timeLimit.textContent = "";
     timeHTML.classList.contains("end") && (timeHTML.classList.remove("end"));
     show(btnChoice);
-    btnAdd5.style.display = "none"
+    btnAdd5.style.display = "none";
 
     if(btnStop.classList.contains("stop")){
             btnStop.classList.remove("stop");
@@ -196,4 +196,35 @@ btnAdd5.addEventListener("click",add5)
 function add5() {
     chronotime.min += 5;
     showLimit()
+}
+
+const backForm = document.getElementById("back-form")
+backForm[0].addEventListener("input",() => parseInt(backForm[0].value) >= 24 && (backForm[0].value = 23));
+
+backForm[1].addEventListener("input", () => parseInt(backForm[1].value) >= 60 && (backForm[1].value = 59));
+
+backForm.onsubmit = (e) => {
+    e.preventDefault();
+    const date = new Date();
+    const backDate = new Date();
+    backDate.setHours(backForm[0].value ? parseInt(backForm[0].value) : 0);
+    backDate.setMinutes(backForm[1].value ? parseInt(backForm[1].value) : 0);
+    backDate.setSeconds(0 - date.getSeconds())
+    backDate.setMinutes(backDate.getMinutes() - date.getMinutes())
+    backDate.setHours(backDate.getHours() - date.getHours())
+    let hour = backDate.getHours()
+    let min = backDate.getMinutes()
+    let seconde = backDate.getSeconds()
+    const time = chronotime;
+    // SI LE FORMULTAIRE N'EST PAS REMPLI AU MOINS DANS l'UN DES INPUTS
+    if(backForm[0].value != "" | backForm[1].value != "" ) {
+        // Si les nombres rentrés sont naturels
+        if(hour >= 0 && min >= 0){
+            time.hour = hour;
+            time.min = min;
+            time.second = seconde;
+            onClick(time);
+            form.reset();
+        }
+    }
 }

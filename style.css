@@ -101,7 +101,7 @@ input[type=number] {
     border-bottom:1px grey solid;
 }
 
-#chrono-form {
+form {
     text-align: center;
 }
 .clock{
@@ -141,13 +141,13 @@ input[type=number] {
 
 }
 #time {
+    font-family: 'Cutive Mono', monospace;
     font-size: 5em;
     border:2px black solid;
     border-radius: 15px;
     padding:0 20px;
     position: relative;
     background: white;
-    width:300px;
     text-align: center;
     transition: all 0.4s;
 }
@@ -251,11 +251,5 @@ input[type=number] {
         flex-direction: row;
         width: auto;
         flex-wrap: wrap;
-    }
-    .clock{
-        width: 300px;
-    }
-    #time{
-        width: 255px;
     }
 }
